@@ -1,17 +1,21 @@
 package com.example.ratelimiter.service;
 
-import com.example.ratelimiter.strategy.rateLimiterStrategies.FixedWindowRateLimiter;
+import com.example.ratelimiter.strategy.RateLimiterStrategy;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RateLimiterService {
-    private final RateLimiter rateLimiter;
+    private final RateLimiterStrategy rateLimiterStrategy;
 
-    public RateLimiterService(FixedWindowRateLimiter fixedWindowRateLimiter) {
-        this.rateLimiter = new FixedWindowRateLimiter(5, 60000);
+    public RateLimiterService(RateLimiterStrategy rateLimiterStrategy) {
+        this.rateLimiterStrategy = rateLimiterStrategy;
     }
 
     public boolean isAllowed(String userId) {
-        return rateLimiter.allowRequest(userId);
+        return rateLimiterStrategy.allowRequest(userId);
+    }
+    
+    public String getCurrentStrategy() {
+        return rateLimiterStrategy.getStrategyName();
     }
 }
