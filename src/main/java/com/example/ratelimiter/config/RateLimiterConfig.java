@@ -17,13 +17,17 @@ public class RateLimiterConfig {
     @Primary
     public RateLimiterStrategy rateLimiterStrategy(
             @Qualifier("fixedWindow") RateLimiterStrategy fixedWindow,
-            @Qualifier("inMemory") RateLimiterStrategy inMemory) {
+            @Qualifier("inMemory") RateLimiterStrategy inMemory,
+            @Qualifier("tokenBucket") RateLimiterStrategy tokenBucket) {
         
         // Select strategy based on configuration
         switch (strategyName.toLowerCase()) {
             case "fixedwindow":
             case "fixed":
                 return fixedWindow;
+            case "tokenbucket":
+            case "bucket":
+                return tokenBucket;
             case "inmemory":
             case "memory":
             default:
